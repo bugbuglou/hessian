@@ -78,6 +78,8 @@ class HVPOperator(Operator):
             grad_vec, self.model.parameters(), grad_outputs=vec, only_inputs=True, allow_unused = True
         )
         # concatenate the results over the different components of the network
+        for g in hessian_vec_prod_dict:
+            print(g)
         hessian_vec_prod = torch.cat([g.contiguous().view(-1) for g in hessian_vec_prod_dict])
         hessian_vec_prod = utils.maybe_fp16(hessian_vec_prod, self.fp16)
         return hessian_vec_prod
